@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Reservations and Requests</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <!--/*@thymesVar id="viewModel" type="nbcc.resto.viewmodels.ReservationRequestListViewModel"*/-->
+
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Reservations and Requests</h1>
+                <p class="page-subtitle">View reservation requests and filter by event or status.</p>
+            </div>
+        </div>
+
+        <div class="resto-card mb-4">
+            <div class="resto-card-header">
+                <h5 class="mb-0 fw-bold">Filters</h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form th:action="@{/reservation/list}" method="get">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label for="eventId" class="form-label">Event</label>
+                            <select id="eventId" name="eventId" class="form-select">
+                                <option value="">All Events</option>
+                                <option th:each="event : ${viewModel.events}"
+                                        th:value="${event.id}"
+                                        th:text="${event.name}"
+                                        th:selected="${viewModel.selectedEventId != null and viewModel.selectedEventId.equals(event.id)}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-select">
+                                <option value="" th:selected="${viewModel.selectedStatus == null or viewModel.selectedStatus.isBlank()}">All Statuses</option>
+                                <option value="PENDING" th:selected="${viewModel.selectedStatus == 'PENDING'}">Pending</option>
+                                <option value="APPROVED" th:selected="${viewModel.selectedStatus == 'APPROVED'}">Approved</option>
+                                <option value="DENIED" th:selected="${viewModel.selectedStatus == 'DENIED'}">Denied</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 d-flex gap-2">
+                            <button type="submit" class="btn btn-resto-primary w-100">Filter</button>
+                            <a th:href="@{/reservation/list}" class="btn btn-resto-outline w-100">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p th:if="${viewModel.message}"
+           th:text="${viewModel.message}"
+           class="alert alert-warning rounded-4"></p>
+
+        <div th:if="${viewModel.isEmpty()}" class="resto-section text-center py-5">
+            <div class="empty-state-icon">📋</div>
+            <h4 class="fw-bold">No Reservation Requests Found</h4>
+            <p class="muted-note mb-0">Try adjusting the filters to see more results.</p>
+        </div>
+
+        <div th:unless="${viewModel.isEmpty()}" class="resto-card">
+            <div class="resto-card-header">
+                <h5 class="mb-0 fw-bold">Reservation Requests</h5>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table resto-table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Seating</th>
+                            <th>Guest</th>
+                            <th>Group Size</th>
+                            <th>Status</th>
+                            <th>Assigned Table</th>
+                            <th>UUID</th>
+                            <th>Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="request : ${viewModel.requests}">
+                            <td th:text="${request.eventName}"></td>
+                            <td>
+                                <div class="fw-bold" th:text="${request.seatingName}"></div>
+                                <div class="text-muted small"
+                                     th:text="${request.seatingStartTime != null ? #temporals.format(request.seatingStartTime, 'yyyy-MM-dd HH:mm:ss') : 'N/A'}"></div>
+                            </td>
+                            <td th:text="${request.firstName + ' ' + request.lastName}"></td>
+                            <td th:text="${request.groupSize}"></td>
+                            <td>
+                                <span class="badge-soft" th:text="${request.status}"></span>
+                            </td>
+                            <td th:text="${request.tableName != null and !request.tableName.isBlank() ? request.tableName : '-'}"></td>
+                            <td class="font-monospace small" th:text="${request.requestUuid}"></td>
+                            <td>
+                                <a th:if="${viewModel.canViewDetails}"
+                                   th:href="@{/reservation/{id}(id=${request.id})}"
+                                   class="btn btn-sm btn-resto-primary">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

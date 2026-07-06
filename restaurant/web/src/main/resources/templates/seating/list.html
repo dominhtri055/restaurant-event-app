@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <meta charset="UTF-8">
+    <title>Seatings</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Seating List</h1>
+                <p class="page-subtitle">View seating groups organized by event.</p>
+            </div>
+
+            <a th:if="${viewModel.canAdd}" th:href="@{/seating/create}" class="btn btn-resto-primary">
+                + Add Seating
+            </a>
+        </div>
+
+        <p th:if="${viewModel.message}"
+           th:text="${viewModel.message}"
+           class="alert alert-warning rounded-4"></p>
+
+        <div th:if="${viewModel.isEmpty()}" class="resto-section text-center py-5">
+            <div class="empty-state-icon">🪑</div>
+            <h4 class="fw-bold">No Seatings Found</h4>
+            <p class="muted-note mb-3">There are no events or seatings to display yet.</p>
+            <a th:if="${viewModel.canAdd}" th:href="@{/seating/create}" class="btn btn-resto-primary">
+                + Add Seating
+            </a>
+        </div>
+
+        <div th:each="group : ${viewModel.eventGroups}" class="resto-card mb-4">
+            <div class="resto-card-header">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+                    <div>
+                        <h4 class="mb-1 fw-bold" th:text="${group.event.name}">Event Name</h4>
+                        <div class="text-muted small">
+                            Start Date:
+                            <span th:text="${group.event.startDate}"></span>
+                            <span class="mx-2">|</span>
+                            End Date:
+                            <span th:text="${group.event.endDate}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="badge-soft">Event Group</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4" th:if="${group.isEmpty()}">
+                <p class="muted-note mb-0">No seatings for this event yet.</p>
+            </div>
+
+            <div class="card-body p-0" th:unless="${group.isEmpty()}">
+                <div class="table-responsive">
+                    <table class="table resto-table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>Seating Name</th>
+                            <th>Start Time</th>
+                            <th>Duration</th>
+                            <th th:if="${viewModel.canEdit or viewModel.canDelete}">Actions</th>
+<!--                            <th>Tables</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="seating : ${group.seatings}">
+                            <td>
+                                <div class="fw-bold" th:text="${seating.name}"></div>
+                            </td>
+                            <td>
+                                <span class="badge-soft" th:text="${seating.startTime}"></span>
+                            </td>
+                            <td th:text="${seating.duration}"></td>
+                            <td th:if="${viewModel.canEdit or viewModel.canDelete}">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a th:href="@{/seating/edit/{id}(id=${seating.id})}" class="btn btn-outline-warning">Edit</a>
+                                    <a th:href="@{/seating/delete/{id}(id=${seating.id})}" class="btn btn-outline-danger">Delete</a>
+                                </div>
+                            </td>
+<!--                            <td>-->
+<!--                                <span th:if="${seating.tableNames != null and !seating.tableNames.isEmpty()}"-->
+<!--                                      th:text="${#strings.listJoin(seating.tableNames, ', ')}"></span>-->
+<!--&lt;!&ndash;                                <span th:if="${seating.tableNames == null or seating.tableNames.isEmpty()}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                      class="text-muted">No tables assigned</span>&ndash;&gt;-->
+<!--                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <meta charset="UTF-8">
+    <title>Application Error</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+<div class="container page-shell">
+    <main class="d-flex justify-content-center">
+        <div class="resto-section text-center auth-card">
+            <div class="empty-state-icon">⚠️</div>
+            <h1 class="page-title">Something went wrong</h1>
+            <p class="muted-note mb-3" th:if="${message}" th:text="${message}"></p>
+            <p class="muted-note mb-4" th:unless="${message}">Please try again. If the issue continues, contact support.</p>
+            <a th:href="@{/}" class="btn btn-resto-primary">Back Home</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

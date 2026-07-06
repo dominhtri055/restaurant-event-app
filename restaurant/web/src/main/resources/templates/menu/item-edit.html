@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Edit Menu Item</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Edit Menu Item</h1>
+                <p class="page-subtitle">Update the selected menu item for this menu.</p>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a th:href="@{/menu/edit/{id}(id=${menu.id})}" class="btn btn-resto-outline">Back to Edit Menu</a>
+                <a th:href="@{/menu/{id}(id=${menu.id})}" class="btn btn-outline-secondary">View Menu</a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="resto-card">
+                    <div class="resto-card-header">
+                        <h5 class="mb-0 fw-bold">Edit Item Information</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form th:action="@{/menu/edit/{menuId}/items/{itemId}/edit(menuId=${menu.id}, itemId=${menuItem.id})}"
+                              method="post"
+                              th:object="${menuItem}">
+
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="hidden" th:field="*{menuId}"/>
+
+                            <div class="mb-3">
+                                <label for="itemName" class="form-label">Item Name</label>
+                                <input id="itemName" type="text" th:field="*{name}" class="form-control"/>
+                                <div class="text-danger small mt-1" th:errors="*{name}"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="itemDescription" class="form-label">Item Description</label>
+                                <textarea id="itemDescription" th:field="*{description}" class="form-control" rows="3"></textarea>
+                                <div class="text-danger small mt-1" th:errors="*{description}"></div>
+                            </div>
+
+                            <button type="submit" class="btn btn-resto-primary">Save Item Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div th:replace="~{menu/item-fragments :: menuItemDetails}"></div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Delete Menu Item</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header">
+            <h1 class="page-title">Delete Menu Item</h1>
+            <p class="page-subtitle">Review the item details before confirming deletion.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-8">
+                <div th:replace="~{menu/item-fragments :: menuItemDetails}"></div>
+
+                <div class="resto-card mt-4">
+                    <div class="card-body p-4">
+                        <p class="mb-3">
+                            This item will be removed from the <strong th:text="${menu.name}"></strong> menu.
+                        </p>
+
+                        <form th:action="@{/menu/edit/{menuId}/items/{itemId}/delete(menuId=${menu.id}, itemId=${menuItem.id})}"
+                              method="post"
+                              class="d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn btn-danger">Delete Menu Item</button>
+                            <a th:href="@{/menu/edit/{id}(id=${menu.id})}" class="btn btn-resto-outline">Back to Edit Menu</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

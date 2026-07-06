@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Event Details</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Event Details</h1>
+                <p class="page-subtitle">Review the full information for this event.</p>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a th:href="@{/event/list}" class="btn btn-resto-outline">Back to Events</a>
+                <a th:href="@{/event/edit/{id}(id=${event.id})}" class="btn btn-resto-primary">Edit Event</a>
+                <a th:href="@{/reservation/event/{id}/approved(id=${event.id})}"
+                   class="btn btn-resto-primary">
+                    View Confirmed Reservations
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div th:replace="~{event/fragments :: details}"></div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="resto-section h-100">
+                    <h5 class="fw-bold mb-3">Quick Summary</h5>
+
+                    <div class="mb-3">
+                        <div class="text-muted small mb-1">Event Name</div>
+                        <div class="fw-bold fs-5" th:text="${event.name}">Sample Event</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="text-muted small mb-1">Date Range</div>
+                        <div>
+                            <span th:text="${event.startDate}">2026-03-12</span>
+                            <span> to </span>
+                            <span th:text="${event.endDate}">2026-03-15</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="text-muted small mb-1">Price</div>
+                        <div class="fw-semibold" th:text="${event.price}">$0.00</div>
+                    </div>
+
+                    <div>
+                        <div class="text-muted small mb-1">Duration</div>
+                        <div th:text="${event.duration}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Login</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="resto-card auth-card">
+            <div class="resto-card-header text-center">
+                <h1 class="page-title mb-1">Login</h1>
+                <p class="page-subtitle">Access your restaurant management dashboard.</p>
+            </div>
+            <div class="card-body p-4">
+                <div th:if="${param.error}" class="alert alert-danger rounded-4 text-center mb-4">
+                    Invalid username or password.
+                </div>
+
+                <form th:action="@{/login}" method="post" class="d-grid gap-3">
+                    <div>
+                        <label for="username" class="form-label">Username</label>
+                        <input id="username" type="text" name="username" th:value="${param.username}" class="form-control" placeholder="Enter username" required/>
+                    </div>
+                    <div>
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required/>
+                    </div>
+                    <input type="submit" value="Login" class="btn btn-resto-primary"/>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Confirmed Reservations</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <!--/*@thymesVar id="viewModel" type="nbcc.resto.viewmodels.ApprovedReservationListViewModel"*/-->
+
+        <div class="page-header">
+            <h1 class="page-title">Confirmed Reservations</h1>
+            <p class="page-subtitle">
+                Approved reservations for event:
+                <span class="fw-bold" th:text="${viewModel.event.name}"></span>
+            </p>
+        </div>
+
+        <p th:if="${viewModel.message}"
+           th:text="${viewModel.message}"
+           class="alert alert-warning rounded-4"></p>
+
+        <div th:if="${viewModel.isEmpty()}" class="resto-section text-center py-5">
+            <div class="empty-state-icon">✅</div>
+            <h4 class="fw-bold">No Confirmed Reservations</h4>
+            <p class="muted-note mb-0">There are no approved reservations for this event yet.</p>
+        </div>
+
+        <div th:unless="${viewModel.isEmpty()}" class="resto-card">
+            <div class="resto-card-header">
+                <h5 class="mb-0 fw-bold">Approved Reservations</h5>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table resto-table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>Seating Start Time</th>
+                            <th>Guest Full Name</th>
+                            <th>Group Size</th>
+                            <th>Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="reservation : ${viewModel.reservations}">
+                            <td th:text="${reservation.seatingStartTime != null ? #temporals.format(reservation.seatingStartTime, 'yyyy-MM-dd HH:mm:ss') : 'N/A'}"></td>
+                            <td th:text="${reservation.firstName + ' ' + reservation.lastName}"></td>
+                            <td th:text="${reservation.groupSize}"></td>
+                            <td>
+                                <a th:if="${viewModel.canViewDetails}"
+                                   th:href="@{/reservation/{id}(id=${reservation.id})}"
+                                   class="btn btn-sm btn-resto-primary">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-4">
+            <a th:href="@{/event/list}" class="btn btn-resto-outline">Back to Events</a>
+            <a th:href="@{/event/{id}(id=${viewModel.event.id})}" class="btn btn-resto-primary">Back to Event Details</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

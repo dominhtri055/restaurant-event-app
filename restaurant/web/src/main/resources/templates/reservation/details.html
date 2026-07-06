@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Reservation Details</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <!--/*@thymesVar id="reservationRequest" type="nbcc.resto.dto.ReservationRequest"*/-->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="page-header">
+                    <h1 class="page-title">Reservation Details</h1>
+                    <p class="page-subtitle">Review the status of your reservation request.</p>
+                </div>
+
+                <div class="resto-card">
+                    <div class="resto-card-header">
+                        <h4 class="mb-0 fw-bold">Reservation Request Details</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4 text-muted">Event Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.eventName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Seating</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.seatingName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Seating Date and Time</dt>
+                            <dd class="col-sm-8"
+                                th:text="${reservationRequest.seatingStartTime != null ? #temporals.format(reservationRequest.seatingStartTime, 'yyyy-MM-dd HH:mm:ss') : 'N/A'}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Guest First Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.firstName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Guest Last Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.lastName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Group Size</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.groupSize}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Request Status</dt>
+                            <dd class="col-sm-8">
+                                <span class="badge-soft" th:text="${reservationRequest.status}"></span>
+                            </dd>
+
+                            <dt class="col-sm-4 text-muted">Tracking UUID</dt>
+                            <dd class="col-sm-8 font-monospace" th:text="${reservationRequest.requestUuid}"></dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a th:href="@{/}" class="btn btn-resto-outline">Back to Home</a>
+                    <a th:href="@{/reservation/request}" class="btn btn-resto-primary">Make Another Request</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

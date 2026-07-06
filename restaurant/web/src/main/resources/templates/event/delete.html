@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Delete Event</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header">
+            <h1 class="page-title">Delete Event</h1>
+            <p class="page-subtitle">Review the event information before confirming deletion.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div th:replace="~{event/fragments :: details}"></div>
+
+                <form method="post" th:action="@{/event/delete/{id}(id=${event.id})}" class="d-flex flex-wrap gap-2 mt-4">
+                    <input type="submit" value="Delete Event" class="btn btn-danger"/>
+                    <a th:href="@{/event/list}" class="btn btn-resto-outline">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Fragments</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="table" type="nbcc.resto.dto.Table"*/-->
+
+<th:block th:fragment="input" th:object="${table}">
+    <div class="resto-card">
+        <div class="resto-card-header">
+            <h5 class="mb-0 fw-bold">Table Information</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="alert alert-danger rounded-4" th:if="${#fields.hasGlobalErrors()}" role="alert">
+                <strong>Error!</strong>
+                <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+            </div>
+            <input type="hidden" th:field="*{id}"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Table Name</label>
+                <input id="name" type="text" th:field="*{name}" class="form-control" placeholder="Enter table name"/>
+                <div class="text-danger small mt-1" th:errors="*{name}"></div>
+            </div>
+            <div class="mb-0">
+                <label for="capacity" class="form-label">Capacity</label>
+                <input id="capacity" type="number" th:field="*{capacity}" class="form-control" placeholder="Enter table capacity"/>
+                <div class="text-danger small mt-1" th:errors="*{capacity}"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="details" th:object="${table}">
+    <div class="resto-card">
+        <div class="resto-card-header">
+            <h4 class="mb-0 fw-bold">Table Details</h4>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 text-muted">Id</dt>
+                <dd class="col-sm-8" th:text="*{id}"></dd>
+
+                <dt class="col-sm-4 text-muted">Name</dt>
+                <dd class="col-sm-8 fw-bold" th:text="*{name}"></dd>
+
+                <dt class="col-sm-4 text-muted">Capacity</dt>
+                <dd class="col-sm-8" th:text="*{capacity}"></dd>
+
+                <dt class="col-sm-4 text-muted">Created Date</dt>
+                <dd class="col-sm-8" th:text="*{createdDate}"></dd>
+            </dl>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

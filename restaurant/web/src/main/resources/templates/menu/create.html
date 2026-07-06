@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Create Menu</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header">
+            <h1 class="page-title">Create Menu</h1>
+            <p class="page-subtitle">Add a new menu with a required name and an optional description.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <form th:action="@{/menu/create}" method="post" th:object="${menu}">
+                    <div th:replace="~{menu/fragments :: input}"></div>
+
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <a th:href="@{/menu/list}" class="btn btn-resto-outline">Back to Menus</a>
+                        <input type="submit" value="Save Menu" class="btn btn-resto-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

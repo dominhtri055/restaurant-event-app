@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Menu Details</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Menu Details</h1>
+                <p class="page-subtitle">Review the menu information below.</p>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3">
+                <a th:href="@{/menu/list}" class="btn btn-resto-outline">Back to Menus</a>
+                <a th:href="@{/menu/edit/{id}(id=${menu.id})}" class="btn btn-resto-primary">Edit Menu</a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div th:replace="~{menu/fragments :: details}"></div>
+            </div>
+
+            <div class="col-lg-5">
+                <div th:replace="~{menu/item-fragments :: menuItemsList}"></div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

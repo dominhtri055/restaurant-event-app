@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+<div class="container page-shell">
+    <main class="d-flex justify-content-center">
+        <div class="resto-section text-center auth-card">
+            <div class="empty-state-icon">404</div>
+            <h1 class="page-title">Page Not Found</h1>
+            <p class="muted-note mb-3" th:if="${message}" th:text="${message}"></p>
+            <p class="muted-note mb-4" th:unless="${message}">The page you requested could not be found.</p>
+            <a th:href="@{/}" class="btn btn-resto-primary">Back Home</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

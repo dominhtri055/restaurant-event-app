@@ -1,0 +1,152 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Home</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main>
+        <section class="hero-panel mb-4">
+            <div class="row align-items-center g-4 position-relative">
+                <div class="col-lg-7">
+                    <span class="section-kicker mb-3">
+                        Team Papa's Resto
+                    </span>
+                    <h1 class="mb-3">One polished dashboard for events, menus, tables, and reservations.</h1>
+                    <p class="mb-4 fs-5">
+                        Run the restaurant with a cleaner workflow, faster access to common actions,
+                        and a more polished experience for both staff and guests.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a th:href="@{/event/list}" class="btn btn-light btn-lg fw-semibold">
+                            <i class="bi bi-calendar-event me-1"></i>View Events
+                        </a>
+                        <a th:href="@{/reservation/request}" class="btn btn-resto-primary btn-lg fw-semibold">
+                            <i class="bi bi-calendar2-check me-1"></i>Make a Reservation
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="resto-section h-100">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <h5 class="titleHeader mb-1">Quick Access</h5>
+                                <p class="muted-note mb-0">Jump into the actions your team uses the most.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <a th:href="@{/event/create}" class="quick-link">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="quick-link-icon"><i class="bi bi-calendar-plus"></i></span>
+                                    <div>
+                                        <div class="quick-link-title">Create Event</div>
+                                        <div class="quick-link-text">Plan a new event with pricing and schedule details.</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-arrow-right-short fs-3"></i>
+                            </a>
+
+                            <a th:href="@{/seating/create}" class="quick-link">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="quick-link-icon"><i class="bi bi-grid-1x2"></i></span>
+                                    <div>
+                                        <div class="quick-link-title">Create Seating</div>
+                                        <div class="quick-link-text">Add seating times and prepare service flow.</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-arrow-right-short fs-3"></i>
+                            </a>
+
+                            <a th:href="@{/table/create}" class="quick-link">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="quick-link-icon"><i class="bi bi-table"></i></span>
+                                    <div>
+                                        <div class="quick-link-title">Create Table</div>
+                                        <div class="quick-link-text">Set up floor capacity and table organization.</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-arrow-right-short fs-3"></i>
+                            </a>
+
+                            <a th:href="@{/menu/create}" class="quick-link">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="quick-link-icon"><i class="bi bi-journal-plus"></i></span>
+                                    <div>
+                                        <div class="quick-link-title">Create Menu</div>
+                                        <div class="quick-link-text">Build menus that can be attached to your events.</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-arrow-right-short fs-3"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="row g-4">
+            <div class="col-md-6 col-xl-4">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="bi bi-clipboard2-pulse"></i></span>
+                    <h5>Event Planning</h5>
+                    <p class="muted-note mb-3">
+                        Create and manage events with descriptions, date ranges, duration, price, and availability.
+                    </p>
+                    <a th:href="@{/event/list}" class="btn btn-resto-soft">Open Events</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                    <h5>Seating Control</h5>
+                    <p class="muted-note mb-3">
+                        Keep seating windows easy to review so table assignment and timing stay organized.
+                    </p>
+                    <a th:href="@{/seating/list}" class="btn btn-resto-soft">Open Seatings</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="bi bi-table"></i></span>
+                    <h5>Table Management</h5>
+                    <p class="muted-note mb-3">
+                        Maintain floor capacity and keep the dining room ready for every service period.
+                    </p>
+                    <a th:href="@{/table}" class="btn btn-resto-soft">Open Tables</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="bi bi-journal-text"></i></span>
+                    <h5>Menu Management</h5>
+                    <p class="muted-note mb-3">
+                        Design menus for specific events and keep menu items easier to review and update.
+                    </p>
+                    <a th:href="@{/menu/list}" class="btn btn-resto-soft">Open Menus</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="bi bi-envelope-check"></i></span>
+                    <h5>Reservation Requests</h5>
+                    <p class="muted-note mb-3">
+                        Give guests a clearer request flow while staff can review reservations more efficiently.
+                    </p>
+                    <a th:href="@{/reservation/request}" class="btn btn-resto-soft">Open Requests</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

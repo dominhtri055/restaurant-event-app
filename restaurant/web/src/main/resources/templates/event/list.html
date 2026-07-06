@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <meta charset="UTF-8">
+    <title>Events</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Events</h1>
+                <p class="page-subtitle">Search, review, and manage your restaurant events.</p>
+            </div>
+
+            <a th:if="${viewModel.canAdd}" th:href="@{/event/create}" class="btn btn-resto-primary">
+                + Add Event
+            </a>
+        </div>
+
+        <p th:if="${viewModel.message}"
+           th:text="${viewModel.message}"
+           class="alert alert-warning rounded-4"></p>
+
+        <div class="resto-card mb-4">
+            <div class="resto-card-header">
+                <h5 class="mb-0 fw-bold">Filter Events</h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form th:action="@{/event/list}" method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="name" class="form-label">Event Name</label>
+                        <input id="name" name="name" type="text" class="form-control"
+                               th:value="${viewModel.name}"
+                               placeholder="Search by event name"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="after" class="form-label">Start After</label>
+                        <input id="after" name="after" type="date" class="form-control"
+                               th:value="${viewModel.after}"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="before" class="form-label">End Before</label>
+                        <input id="before" name="before" type="date" class="form-control"
+                               th:value="${viewModel.before}"/>
+                    </div>
+
+                    <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                        <button type="submit" class="btn btn-resto-primary">Search</button>
+                        <a th:href="@{/event/list}" class="btn btn-resto-outline">Clear</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="resto-card" th:unless="${viewModel.isEmpty()}">
+            <div class="table-responsive">
+                <table class="table resto-table align-middle">
+                    <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Price</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="event : ${viewModel.events}">
+                        <td>
+                            <div class="fw-bold" th:text="${event.name}"></div>
+                        </td>
+                        <td>
+                            <span class="badge-soft" th:text="${event.startDate}"></span>
+                        </td>
+                        <td>
+                            <span class="badge-soft" th:text="${event.endDate}"></span>
+                        </td>
+                        <td class="text-muted fw-semibold" th:text="${event.price}"></td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center flex-wrap gap-2 action-group">
+                                <a th:href="@{/event/{id}(id=${event.id})}"
+                                   class="btn btn-outline-secondary">View</a>
+                                <a th:if="${viewModel.canEdit}"
+                                   th:href="@{/event/edit/{id}(id=${event.id})}"
+                                   class="btn btn-outline-warning">Edit</a>
+                                <a th:if="${viewModel.canDelete}"
+                                   th:href="@{/event/delete/{id}(id=${event.id})}"
+                                   class="btn btn-outline-danger">Delete</a>
+                                <a th:href="@{/reservation/event/{id}/approved(id=${event.id})}"
+                                   class="btn btn-sm btn-resto-outline">
+                                    Confirmed Reservations
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="resto-section text-center py-5" th:if="${viewModel.isEmpty()}">
+            <div class="empty-state-icon">🎉</div>
+            <h4 class="fw-bold">No Events Found</h4>
+            <p class="muted-note mb-3">Try adjusting your filters or create a new event.</p>
+            <a th:if="${viewModel.canAdd}" th:href="@{/event/create}" class="btn btn-resto-primary">
+                + Add Event
+            </a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

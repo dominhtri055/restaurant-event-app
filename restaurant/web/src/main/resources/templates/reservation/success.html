@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Reservation Request Submitted</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <!--/*@thymesVar id="reservationRequest" type="nbcc.resto.dto.ReservationRequest"*/-->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="resto-card mt-4">
+                    <div class="resto-card-header">
+                        <h4 class="mb-0 fw-bold">Reservation Request Submitted</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <p class="mb-3">
+                            Your reservation request has been submitted successfully.
+                        </p>
+
+                        <dl class="row mb-0">
+
+                            <dt class="col-sm-4 text-muted">Guest Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.firstName + ' ' + reservationRequest.lastName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Email</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.emailAddress}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Group Size</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.groupSize}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Status</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.status}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Tracking UUID</dt>
+                            <dd class="col-sm-8 font-monospace" th:text="${reservationRequest.requestUuid}"></dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a th:href="@{/}" class="btn btn-resto-outline">Back to Home</a>
+                    <a th:href="@{/reservation/request}" class="btn btn-resto-primary">Make Another Request</a>
+                    <a th:href="@{/reservation/details/{uuid}(uuid=${reservationRequest.requestUuid})}"
+                       class="btn btn-resto-primary">
+                        View Reservation Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

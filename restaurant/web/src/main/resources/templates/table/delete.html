@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Delete Table</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header">
+            <h1 class="page-title">Delete Table</h1>
+            <p class="page-subtitle">Review the table information before confirming deletion.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div th:replace="~{table/fragments :: details}"></div>
+                <form method="post" th:action="@{/table/delete/{id}(id=${table.id})}" class="d-flex flex-wrap gap-2 mt-4">
+                    <input type="submit" value="Delete Table" class="btn btn-danger"/>
+                    <a th:href="@{/table}" class="btn btn-resto-outline">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

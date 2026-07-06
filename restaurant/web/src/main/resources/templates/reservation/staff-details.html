@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <title>Reservation Request Details</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <!--/*@thymesVar id="reservationRequest" type="nbcc.resto.dto.ReservationRequest"*/-->
+        <!--/*@thymesVar id="statusUpdate" type="nbcc.resto.dto.ReservationStatusUpdate"*/-->
+        <!--/*@thymesVar id="availableTables" type="java.util.Collection<nbcc.resto.dto.Table>"*/-->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="page-header">
+                    <h1 class="page-title">Reservation Request Details</h1>
+                    <p class="page-subtitle">View and manage the selected reservation request.</p>
+                </div>
+
+                <div class="resto-card">
+                    <div class="resto-card-header">
+                        <h4 class="mb-0 fw-bold">Reservation Request Details</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4 text-muted">Event Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.eventName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Seating Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.seatingName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Seating Date and Time</dt>
+                            <dd class="col-sm-8"
+                                th:text="${reservationRequest.seatingStartTime != null ? #temporals.format(reservationRequest.seatingStartTime, 'yyyy-MM-dd HH:mm:ss') : 'N/A'}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Guest First Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.firstName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Guest Last Name</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.lastName}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Email Address</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.emailAddress}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Group Size</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.groupSize}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Request Status</dt>
+                            <dd class="col-sm-8">
+                                <span class="badge-soft" th:text="${reservationRequest.status}"></span>
+                            </dd>
+
+                            <dt class="col-sm-4 text-muted">Assigned Table</dt>
+                            <dd class="col-sm-8" th:text="${reservationRequest.tableName != null ? reservationRequest.tableName : 'None'}"></dd>
+
+                            <dt class="col-sm-4 text-muted">Tracking UUID</dt>
+                            <dd class="col-sm-8 font-monospace" th:text="${reservationRequest.requestUuid}"></dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="resto-card mt-4">
+                    <div class="resto-card-header">
+                        <h4 class="mb-0 fw-bold">Approve or Deny</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="alert alert-info rounded-4 mb-0"
+                             th:if="${reservationRequest.status == 'APPROVED'}">
+                            This reservation is already approved and can no longer be changed.
+                        </div>
+
+                        <form th:if="${reservationRequest.status != 'APPROVED'}"
+                              th:action="@{/reservation/{id}/status(id=${reservationRequest.id})}"
+                              method="post"
+                              th:object="${statusUpdate}">
+
+                            <div class="alert alert-danger rounded-4" th:if="${#fields.hasGlobalErrors()}" role="alert">
+                                <strong>Error!</strong>
+                                <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status" class="form-label">New Status</label>
+                                <select id="status"
+                                        th:field="*{status}"
+                                        class="form-select">
+                                    <option value="">-- Select Status --</option>
+                                    <option value="APPROVED">Approve</option>
+                                    <option value="DENIED">Deny</option>
+                                </select>
+                                <div class="text-danger small mt-1" th:errors="*{status}"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tableId" class="form-label">Assign Table (required for approval)</label>
+                                <select id="tableId"
+                                        th:field="*{tableId}"
+                                        class="form-select">
+                                    <option value="">-- Select Table --</option>
+                                    <option th:each="table : ${availableTables}"
+                                            th:value="${table.id}"
+                                            th:text="${(table.name != null and !table.name.isBlank() ? table.name : 'Table ' + table.id) + ' - Capacity: ' + table.capacity}">
+                                    </option>
+                                </select>
+                                <div class="text-danger small mt-1" th:errors="*{tableId}"></div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <a th:href="@{/reservation/list}" class="btn btn-resto-outline">Back to List</a>
+                                <button type="submit"
+                                        class="btn btn-resto-primary">
+                                    Save Status
+                                </button>
+                            </div>
+                        </form>
+
+                        <div th:if="${reservationRequest.status == 'APPROVED'}" class="d-flex flex-wrap gap-2 mt-3">
+                            <a th:href="@{/reservation/list}" class="btn btn-resto-outline">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

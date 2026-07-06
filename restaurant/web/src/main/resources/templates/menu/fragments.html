@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Fragments</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="menu" type="nbcc.resto.dto.Menu"*/-->
+
+<th:block th:fragment="input" th:object="${menu}">
+    <div class="resto-card">
+        <div class="resto-card-header">
+            <h5 class="mb-0 fw-bold">Menu Information</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="alert alert-danger rounded-4" th:if="${#fields.hasGlobalErrors()}" role="alert">
+                <strong>Error!</strong>
+                <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+            </div>
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Menu Name</label>
+                <input id="name" type="text" th:field="*{name}" class="form-control" placeholder="Enter menu name"/>
+                <div class="text-danger small mt-1" th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-0">
+                <label for="description" class="form-label">Description</label>
+                    <textarea id="description" th:field="*{description}" class="form-control" rows="4" placeholder="Enter an optional description"></textarea>
+                <div class="text-danger small mt-1" th:errors="*{description}"></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="details" th:object="${menu}">
+    <div class="resto-card">
+        <div class="resto-card-header">
+            <h4 class="mb-0 fw-bold">Menu Details</h4>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 text-muted">Id</dt>
+                <dd class="col-sm-8" th:text="*{id}"></dd>
+
+                <dt class="col-sm-4 text-muted">Name</dt>
+                <dd class="col-sm-8 fw-bold" th:text="*{name}"></dd>
+
+                <dt class="col-sm-4 text-muted">Description</dt>
+                <dd class="col-sm-8"
+                    th:text="${menu.description != null and !#strings.isEmpty(menu.description) ? menu.description : 'No description provided.'}">
+                </dd>
+
+                <dt class="col-sm-4 text-muted">Created Date</dt>
+                <dd class="col-sm-8"
+                    th:text="${menu.creationDate != null ? #temporals.format(menu.creationDate, 'yyyy-MM-dd HH:mm') : 'N/A'}">
+                </dd>
+            </dl>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

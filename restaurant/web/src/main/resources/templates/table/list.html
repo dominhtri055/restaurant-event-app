@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{partial :: bootstrap}"/>
+    <meta charset="UTF-8">
+    <title>Dining Tables</title>
+</head>
+<body>
+<header>
+    <nav th:replace="~{nav :: navbar}"></nav>
+</header>
+
+<div class="container page-shell">
+    <main role="main">
+        <div class="page-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h1 class="page-title">Dining Tables</h1>
+                <p class="page-subtitle">View and manage table setup for your restaurant floor.</p>
+            </div>
+            <a th:if="${viewModel.canAdd}" th:href="@{/table/create}" class="btn btn-resto-primary">+ Add Table</a>
+        </div>
+
+        <p th:if="${viewModel.message}" th:text="${viewModel.message}" class="alert alert-warning rounded-4"></p>
+
+        <div class="resto-card" th:unless="${viewModel.isEmpty()}">
+            <div class="table-responsive">
+                <table class="table resto-table align-middle">
+                    <thead>
+                    <tr>
+                        <th>Table Name</th>
+                        <th>Capacity</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="table : ${viewModel.tables}">
+                        <td><div class="fw-bold" th:text="${table.name}"></div></td>
+                        <td><span class="badge-soft" th:text="${table.capacity}"></span></td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center flex-wrap gap-2 action-group">
+                                <a th:if="${viewModel.canEdit}" th:href="@{/table/edit/{id}(id=${table.id})}" class="btn btn-outline-warning">Edit</a>
+                                <a th:if="${viewModel.canDelete}" th:href="@{/table/delete/{id}(id=${table.id})}" class="btn btn-outline-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="resto-section text-center py-5" th:if="${viewModel.isEmpty()}">
+            <div class="empty-state-icon">🍽️</div>
+            <h4 class="fw-bold">No Tables Found</h4>
+            <p class="muted-note mb-3">Create your first dining table to get started.</p>
+            <a th:if="${viewModel.canAdd}" th:href="@{/table/create}" class="btn btn-resto-primary">+ Add Table</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

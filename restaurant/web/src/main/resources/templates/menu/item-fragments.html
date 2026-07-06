@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Item Fragments</title>
+</head>
+<body>
+
+<th:block th:fragment="menuItemsSection">
+    <div class="resto-card mb-4">
+        <div class="resto-card-header">
+            <h5 class="mb-0 fw-bold">Add Menu Item</h5>
+        </div>
+        <div class="card-body p-4">
+            <form th:action="@{/menu/edit/{id}/items(id=${menu.id})}" method="post" th:object="${menuItem}">
+                <input type="hidden" th:field="*{menuId}"/>
+
+                <div th:replace="~{menu/item-fragments :: menuItemFields}"></div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-resto-primary">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{menu/item-fragments :: menuItemsList}"></div>
+</th:block>
+
+<th:block th:fragment="menuItemFields">
+    <div class="mb-3">
+        <label for="itemName" class="form-label">Item Name</label>
+        <input id="itemName"
+               type="text"
+               th:field="*{name}"
+               class="form-control"
+               placeholder="Enter item name"/>
+        <div class="text-danger small mt-1" th:errors="*{name}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label for="itemDescription" class="form-label">Item Description</label>
+        <textarea id="itemDescription"
+                  th:field="*{description}"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Enter item description"></textarea>
+        <div class="text-danger small mt-1" th:errors="*{description}"></div>
+    </div>
+</th:block>
+
+<th:block th:fragment="menuItemDetails">
+    <div class="resto-card">
+        <div class="resto-card-header">
+            <h4 class="mb-0 fw-bold">Menu Item Details</h4>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 text-muted">Item Id</dt>
+                <dd class="col-sm-8" th:text="${menuItem.id}"></dd>
+
+                <dt class="col-sm-4 text-muted">Menu</dt>
+                <dd class="col-sm-8 fw-bold" th:text="${menu.name}"></dd>
+
+                <dt class="col-sm-4 text-muted">Name</dt>
+                <dd class="col-sm-8 fw-bold" th:text="${menuItem.name}"></dd>
+
+                <dt class="col-sm-4 text-muted">Description</dt>
+                <dd class="col-sm-8"
+                    th:text="${menuItem.description != null and !#strings.isEmpty(menuItem.description) ? menuItem.description : 'No description provided.'}">
+                </dd>
+            </dl>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="menuItemsList">
+    <div class="resto-card">
+        <div class="resto-card-header d-flex justify-content-between align-items-center gap-3">
+            <h5 class="mb-0 fw-bold">Menu Items</h5>
+            <span class="badge-soft"
+                  th:if="${menuItems != null}"
+                  th:text="|${#lists.size(menuItems)} total|"></span>
+        </div>
+
+        <div class="card-body p-4 menu-items-scroll">
+            <div th:if="${menuItems == null or #lists.isEmpty(menuItems)}" class="text-muted">
+                No menu items have been added yet.
+            </div>
+
+            <div th:if="${menuItems != null and !#lists.isEmpty(menuItems)}" class="d-flex flex-column gap-3">
+                <div th:each="item : ${menuItems}" class="border rounded-4 p-3">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold" th:text="${item.name}"></h6>
+                            <p class="mb-0 text-muted"
+                               th:text="${item.description != null and !#strings.isEmpty(item.description) ? item.description : 'No description provided.'}">
+                            </p>
+                        </div>
+
+                        <div th:if="${showItemActions}" class="d-flex flex-wrap gap-2 justify-content-md-end">
+                            <a th:href="@{/menu/edit/{menuId}/items/{itemId}/edit(menuId=${menu.id}, itemId=${item.id})}"
+                               class="btn btn-outline-warning btn-sm">
+                                Edit
+                            </a>
+                            <a th:href="@{/menu/edit/{menuId}/items/{itemId}/delete(menuId=${menu.id}, itemId=${item.id})}"
+                               class="btn btn-outline-danger btn-sm">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

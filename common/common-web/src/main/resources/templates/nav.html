@@ -1,0 +1,110 @@
+<nav th:fragment="navbar" class="navbar navbar-expand-lg resto-navbar sticky-top">
+    <!--/*@thymesVar id="navViewModel" type="nbcc.common.viewmodel.NavViewModel"*/-->
+    <div class="container py-2">
+        <a class="navbar-brand resto-brand" th:href="@{/}">Papa's Resto</a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
+
+                <li class="nav-item">
+                    <a class="nav-link resto-nav-link" th:href="@{/reservation/request}">Request Reservation</a>
+                </li>
+
+                <li class="nav-item dropdown"
+                    th:if="${navViewModel != null and navViewModel.showAlbums}">
+                    <a class="nav-link dropdown-toggle resto-nav-link"
+                       href="#"
+                       id="eventDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Events
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="eventDropdown">
+                        <li><a class="dropdown-item" th:href="@{/event/list}">Event List</a></li>
+                        <li><a class="dropdown-item" th:href="@{/event/create}">Create Event</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown"
+                    th:if="${navViewModel != null and navViewModel.showAlbums}">
+                    <a class="nav-link dropdown-toggle resto-nav-link"
+                       href="#"
+                       id="seatingDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Seatings
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="seatingDropdown">
+                        <li><a class="dropdown-item" th:href="@{/seating/list}">Seating List</a></li>
+                        <li><a class="dropdown-item" th:href="@{/seating/create}">Create Seating</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown"
+                    th:if="${navViewModel != null and navViewModel.showAlbums}">
+                    <a class="nav-link dropdown-toggle resto-nav-link"
+                       href="#"
+                       id="tableDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Tables
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="tableDropdown">
+                        <li><a class="dropdown-item" th:href="@{/table}">Table List</a></li>
+                        <li><a class="dropdown-item" th:href="@{/table/create}">Create Table</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown"
+                    th:if="${navViewModel != null and navViewModel.showAlbums}">
+                    <a class="nav-link dropdown-toggle resto-nav-link"
+                       href="#"
+                       id="menuDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Menus
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="menuDropdown">
+                        <li><a class="dropdown-item" th:href="@{/menu/list}">Menu List</a></li>
+                        <li><a class="dropdown-item" th:href="@{/menu/create}">Create Menu</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"
+                    th:if="${navViewModel != null and navViewModel.showAlbums}">
+                    <a class="nav-link resto-nav-link" th:href="@{/reservation/list}">Reservations</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <li class="nav-item" th:if="${navViewModel != null and navViewModel.showRegisterLink}">
+                    <a class="nav-link resto-nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item" th:if="${navViewModel != null and navViewModel.showLoginLink}">
+                    <a class="btn btn-resto-primary" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item" th:if="${navViewModel != null and navViewModel.showUserName}">
+                    <span class="nav-link text-muted fw-semibold" th:text="${navViewModel.username}"></span>
+                </li>
+                <li class="nav-item" th:if="${navViewModel != null and navViewModel.showLogoutButton}">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <input class="btn btn-resto-outline" type="submit" value="Logout"/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
